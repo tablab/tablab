@@ -1,0 +1,68 @@
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+model User {
+  id      Int      @id @default(autoincrement())
+  name    String
+  tabs    Tab[]
+  profile Profile?
+}
+
+model Profile {
+  id       Int    @id @default(autoincrement())
+  location String
+  userId   Int
+  user     User   @relation(fields: [userId], references: [id])
+}
+
+model Tab {
+  id         Int        @id @default(autoincrement())
+  title      String
+  artist     ArtistsOnTabs[] 
+  published  Boolean    @default(true)
+  content    String
+  authorId   Int
+  author     User       @relation(fields: [authorId], references: [id])
+  genres     GenresOnTabs[]
+}
+
+model Artist {
+  id Int @id @default(autoincrement())
+  name String
+  tabs ArtistsOnTabs[]
+}
+
+model Genre {
+  id    Int    @id @default(autoincrement())
+  name  String
+  tabs  GenresOnTabs[]
+
+  @@unique([name])
+}
+
+model GenresOnTabs {
+  tab        Tab      @relation(fields: [tabId], references: [id])
+  tabId      Int
+  genre      Genre    @relation(fields: [genreId], references: [id])
+  genreId    Int
+  assignedAt DateTime @default(now())
+
+  @@id([tabId, genreId])
+}
+
+model ArtistsOnTabs {
+  tab        Tab      @relation(fields: [tabId], references: [id])
+  tabId      Int
+  artist     Artist   @relation(fields: [artistId], references: [id])
+  artistId   Int
+  assignedAt DateTime @default(now())
+
+  @@id([tabId, artistId])
+}
