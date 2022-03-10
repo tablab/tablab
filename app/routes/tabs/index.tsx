@@ -1,7 +1,16 @@
 import { json, Link, MetaFunction, useLoaderData } from 'remix'
 import type { LoaderFunction } from 'remix'
+import type { Tab } from '@prisma/client'
+import type { Artist } from '@prisma/client'
+import type { Genre } from '@prisma/client'
 
 import { db } from '~/db.server'
+import Tab from './$id'
+
+type LoaderData = Tab[] & {
+  artist: Artist[]
+  genres: Genre[]
+}
 
 export const loader: LoaderFunction = async ({ params }) => {
   return json(
@@ -34,7 +43,7 @@ export const meta: MetaFunction = () => {
 }
 
 export default function ProductCategory() {
-  const tabs = useLoaderData()
+  const tabs = useLoaderData<LoaderData>()
   return (
     <>
       <div>
@@ -44,9 +53,8 @@ export default function ProductCategory() {
         <ul>
           {tabs.map((tab) => (
             <li key={tab.id}>
-              {console.log(tab.title)}
-              <Link to={tab}>
-                {tab.title} by
+              <Link to={tab.id.toString()}>
+                ID: {tab.id} - {tab.title} by
                 {tab.artist.map((artist) => (
                   <> {artist.artist.name}</>
                 ))}
@@ -54,7 +62,9 @@ export default function ProductCategory() {
               <p>edited by {tab.author.username}</p>
               <ul>
                 {tab.genres.map((genre) => (
-                  <li key={genre.genreId}>{genre.genre.name}</li>
+                  <li key={genre.genreId}>
+                    ID: {genre.genreId} - {genre.genre.name}
+                  </li>
                 ))}
               </ul>
             </li>
