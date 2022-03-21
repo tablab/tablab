@@ -1,8 +1,9 @@
-import { json, useLoaderData } from 'remix'
+import { json, MetaFunction, useLoaderData } from 'remix'
 import type { LoaderFunction } from 'remix'
 
 import { db } from '~/db.server'
-import { Vex, VexTab } from 'vextab'
+import MusicStaff from '~/components/tab/music-render.client'
+import { useState, useEffect } from 'react'
 
 export const loader: LoaderFunction = async ({ params }) => {
   const intId = Number(params.id)
@@ -27,13 +28,14 @@ export const meta: MetaFunction = (page) => {
   }
 }
 
-const Renderer = (tab) => {
-  console.log('-----> content', tab.value)
-  return null
-}
-
 export default function Tab() {
   const tab = useLoaderData()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   return (
     <main>
       <h1>{tab.title}</h1>
@@ -50,7 +52,7 @@ export default function Tab() {
         id="editor"
         defaultValue={tab.content}
       />
-      <Renderer value={tab.content} />
+      {mounted ? <MusicStaff value={tab.content} /> : null}
     </main>
   )
 }

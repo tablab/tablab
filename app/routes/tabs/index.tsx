@@ -56,7 +56,7 @@ export default function ProductCategory() {
               <Link to={tab.id.toString()}>
                 ID: {tab.id} - {tab.title} by
                 {tab.artist.map((artist) => (
-                  <> {artist.artist.name}</>
+                  <span key={artist.artistId}> {artist.artist.name}</span>
                 ))}
               </Link>
               <p>edited by {tab.author.username}</p>
