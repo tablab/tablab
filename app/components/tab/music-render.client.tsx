@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { render } from 'react-dom'
 // import Vex from 'vexflow'
 import { Vex, Artist, VexTab } from '../../../vendor/vextab'
 
@@ -10,36 +11,33 @@ const MusicStaff = ({ value }: Props) => {
   const canvasRef = useRef<HTMLDivElement>(null)
   const errorMessageRef = useRef<HTMLDivElement>(null)
 
-  const [artist, setArtist] = useState<Artist>(
-    new Artist(10, 30, 800, { scale: 1, bottom_spacing: 8 })
-  )
-  const [tab, setTab] = useState<VexTab>(new VexTab(artist))
-  const [renderer, setRenderer] = useState<Vex.IRenderer | null>(null)
+  const VF = Vex.Flow
 
   useEffect(() => {
-    const VF = Vex.Flow
-    const musicCanvas = canvasRef.current
-    setRenderer(new VF.Renderer(musicCanvas, VF.Renderer.Backends.SVG))
-  }, [])
+    const canvas = canvasRef.current
 
-  useEffect(() => {
-    if (canvasRef.current && renderer) {
-      try {
-        artist.reset()
-        setTab(new VexTab(artist))
+    if (canvas) {
+      canvas.innerHTML = ''
+    }
 
-        tab.parse(value)
-        artist.render(renderer)
-      } catch (e) {
-        console.log('----> error', e)
-      }
+    const renderer = new VF.Renderer(canvas, VF.Renderer.Backends.SVG)
+    const artist = new Artist(10, 30, 800, { scale: 1, bottom_spacing: 8 })
+    const tab = new VexTab(artist)
+
+    try {
+      errorMessageRef.current.innerHTML = ''
+      tab.parse(value)
+      artist.render(renderer)
+    } catch (e) {
+      console.error(e)
+      errorMessageRef.current.innerHTML = e.message
     }
   }, [value])
 
   return (
     <>
-      <div ref={canvasRef} id="canvas"></div>
       <div ref={errorMessageRef} />
+      <div ref={canvasRef} id="canvas"></div>
     </>
   )
 }
