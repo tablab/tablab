@@ -1,5 +1,7 @@
 import { json, MetaFunction, useLoaderData, ActionFunction } from 'remix'
 import type { LoaderFunction } from 'remix'
+
+import type { Artist } from '@prisma/client'
 import TabBody from '~/components/tab/tab-body'
 
 import { db } from '~/db.server'
@@ -54,8 +56,8 @@ export default function Tab() {
       <h1>{tab.title}</h1>
       <p>
         by
-        {tab.artist.map((artist) => (
-          <span key={artist.artistId}> {artist.artist.name}</span>
+        {tab.artist.map((artist: { artist: Artist }) => (
+          <span key={artist.artist.id}> {artist.artist.name}</span>
         ))}
       </p>
       <TabBody defaultValue={tab.content} tabId={tab.id} />
