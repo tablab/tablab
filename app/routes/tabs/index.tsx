@@ -1,16 +1,10 @@
 import { json, Link, MetaFunction, useLoaderData } from 'remix'
 import type { LoaderFunction } from 'remix'
-import type { Tab } from '@prisma/client'
+import type { Tab, User } from '@prisma/client'
 import type { Artist } from '@prisma/client'
 import type { Genre } from '@prisma/client'
 
 import { db } from '~/db.server'
-import Tab from './$id'
-
-type LoaderData = Tab[] & {
-  artist: Artist[]
-  genres: Genre[]
-}
 
 export const loader: LoaderFunction = async ({ params }) => {
   return json(
@@ -43,7 +37,7 @@ export const meta: MetaFunction = () => {
 }
 
 export default function ProductCategory() {
-  const tabs = useLoaderData<LoaderData>()
+  const tabs = useLoaderData()
   return (
     <>
       <div>
@@ -51,24 +45,26 @@ export default function ProductCategory() {
       </div>
       <div>
         <ul>
-          {tabs.map((tab) => (
-            <li key={tab.id}>
-              <Link to={tab.id.toString()}>
-                ID: {tab.id} - {tab.title} by
-                {tab.artist.map((artist) => (
-                  <span key={artist.artistId}> {artist.artist.name}</span>
-                ))}
-              </Link>
-              <p>edited by {tab.author.username}</p>
-              <ul>
-                {tab.genres.map((genre) => (
-                  <li key={genre.genreId}>
-                    ID: {genre.genreId} - {genre.genre.name}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
+          {tabs.map(
+            (tab: Tab & { author: User; artist: any[]; genres: any[] }) => (
+              <li key={tab.id}>
+                <Link to={tab.id.toString()}>
+                  ID: {tab.id} - {tab.title} by
+                  {tab.artist.map((artist: { artist: Artist }) => (
+                    <span key={artist.artist.id}> {artist.artist.name}</span>
+                  ))}
+                </Link>
+                <p>edited by {tab.author.username}</p>
+                <ul>
+                  {tab.genres.map((genre: { genre: Genre }) => (
+                    <li key={genre.genre.id}>
+                      ID: {genre.genre.id} - {genre.genre.name}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            )
+          )}
         </ul>
       </div>
     </>

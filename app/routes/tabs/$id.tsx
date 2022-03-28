@@ -33,6 +33,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   const form = await request.formData()
   const intId = Number(params.id)
   const newContent = form.get('content')?.toString()
+
   // // we do this type check to be extra sure and to make TypeScript happy
   // // we'll explore validation next!
 
@@ -40,10 +41,12 @@ export const action: ActionFunction = async ({ request, params }) => {
     throw new Error(`Form not submitted correctly.`)
   }
 
-  await db.tab.update({
-    where: { id: intId },
-    data: { content: newContent },
-  })
+  setTimeout(async function () {
+    await db.tab.update({
+      where: { id: intId },
+      data: { content: newContent },
+    })
+  }, 500)
 
   return null
 }

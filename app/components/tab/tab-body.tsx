@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useFetcher } from 'remix'
 import TabRenderer from './tab-render.client'
 
@@ -12,8 +12,10 @@ const TabBody = ({ defaultValue, tabId }: Props) => {
   const [mounted, setMounted] = useState(false)
   const [tabValue, setTabValue] = useState(defaultValue)
 
-  const handleChange = (e) => {
-    const content = e.currentTarget.value
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const target = e.target as HTMLTextAreaElement
+    const content = target.value
+
     setTabValue(content)
     fetcher.submit(
       { content: content },
@@ -33,7 +35,7 @@ const TabBody = ({ defaultValue, tabId }: Props) => {
           spellCheck="false"
           autoCapitalize="false"
           defaultValue={defaultValue}
-          onChange={handleChange}
+          onChange={(event) => handleChange(event)}
           style={{
             width: '100%',
             height: '100%',

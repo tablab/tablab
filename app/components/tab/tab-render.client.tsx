@@ -23,12 +23,16 @@ const TabRenderer = ({ value }: Props) => {
     const tab = new VexTab(artist)
 
     try {
-      errorMessageRef.current.innerHTML = ''
+      if (errorMessageRef.current) {
+        errorMessageRef.current.innerHTML = ''
+      }
       tab.parse(value)
       artist.render(renderer)
     } catch (e) {
       console.error(e)
-      errorMessageRef.current.innerHTML = e.message
+      if (errorMessageRef.current) {
+        errorMessageRef.current.innerHTML = e.message
+      }
     }
   }, [value])
 
