@@ -31,7 +31,7 @@ model Tab {
   title     String
   artist    ArtistsOnTabs[]
   published Boolean         @default(true)
-  content   String
+  content   String          @db.LongText
   authorId  Int
   author    User            @relation(fields: [authorId], references: [id], onUpdate: NoAction)
   genres    GenresOnTabs[]

@@ -1,13 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
-import { render } from 'react-dom'
-// import Vex from 'vexflow'
-import { Vex, Artist, VexTab } from '../../../vendor/vextab'
+import { useEffect, useRef } from 'react'
+import { Vex, Artist, VexTab } from '../../../vendor/vextab/dist/main.prod'
 
 type Props = {
   value: string
 }
 
-const MusicStaff = ({ value }: Props) => {
+const TabRenderer = ({ value }: Props) => {
   const canvasRef = useRef<HTMLDivElement>(null)
   const errorMessageRef = useRef<HTMLDivElement>(null)
 
@@ -42,4 +40,4 @@ const MusicStaff = ({ value }: Props) => {
   )
 }
 
-export default MusicStaff
+export default TabRenderer

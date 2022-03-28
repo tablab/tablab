@@ -1,15 +1,8 @@
-import {
-  json,
-  MetaFunction,
-  useLoaderData,
-  useFetcher,
-  ActionFunction,
-} from 'remix'
+import { json, MetaFunction, useLoaderData, ActionFunction } from 'remix'
 import type { LoaderFunction } from 'remix'
+import TabBody from '~/components/tab/tab-body'
 
 import { db } from '~/db.server'
-import MusicStaff from '~/components/tab/music-render.client'
-import { useState, useEffect, useRef } from 'react'
 
 export const loader: LoaderFunction = async ({ params }) => {
   const intId = Number(params.id)
@@ -40,13 +33,11 @@ export const action: ActionFunction = async ({ request, params }) => {
   const newContent = form.get('content')?.toString()
   // // we do this type check to be extra sure and to make TypeScript happy
   // // we'll explore validation next!
-  // console.log('---> new content', newContent)
 
   if (typeof newContent !== 'string') {
     throw new Error(`Form not submitted correctly.`)
   }
 
-  console.log('---> Update tab', intId, newContent)
   await db.tab.update({
     where: { id: intId },
     data: { content: newContent },
@@ -57,22 +48,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export default function Tab() {
   const tab = useLoaderData()
-  const fetcher = useFetcher()
-
-  const [mounted, setMounted] = useState(false)
-  const [tabValue, setTabValue] = useState(tab.content)
-  const editorRef = useRef<HTMLTextAreaElement>(null)
-
-  const handleChange = (e) => {
-    const content = e.currentTarget.value
-    console.log('---> content', content)
-    setTabValue(content)
-    fetcher.submit({ content: content }, { method: 'post' })
-  }
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   return (
     <main>
@@ -83,23 +58,7 @@ export default function Tab() {
           <span key={artist.artistId}> {artist.artist.name}</span>
         ))}
       </p>
-      <div style={{ display: 'flex', width: '100%' }}>
-        <fetcher.Form style={{ flexGrow: '1' }}>
-          <textarea
-            name="tabContent"
-            spellCheck="false"
-            autoCapitalize="false"
-            defaultValue={tabValue}
-            onChange={handleChange}
-            ref={editorRef}
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-          />
-        </fetcher.Form>
-        {mounted ? <MusicStaff value={tabValue} /> : null}
-      </div>
+      <TabBody defaultValue={tab.content} tabId={tab.id} />
     </main>
   )
 }
