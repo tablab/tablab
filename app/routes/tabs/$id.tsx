@@ -1,9 +1,7 @@
-import { json, MetaFunction, useLoaderData, ActionFunction } from 'remix'
-import type { LoaderFunction } from 'remix'
-
+import { ActionFunction, MetaFunction, json, useLoaderData } from 'remix'
 import type { Artist } from '@prisma/client'
+import type { LoaderFunction } from 'remix'
 import TabBody from '~/components/tab/tab-body'
-
 import { db } from '~/db.server'
 
 export const loader: LoaderFunction = async ({ params }) => {

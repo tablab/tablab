@@ -1,8 +1,6 @@
-import { json, Link, MetaFunction, useLoaderData } from 'remix'
+import type { Artist, Genre, Tab, User } from '@prisma/client'
+import { Link, MetaFunction, json, useLoaderData } from 'remix'
 import type { LoaderFunction } from 'remix'
-import type { Tab, User } from '@prisma/client'
-import type { Artist } from '@prisma/client'
-import type { Genre } from '@prisma/client'
 
 import { db } from '~/db.server'
 

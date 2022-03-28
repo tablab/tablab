@@ -3,14 +3,12 @@ export default function NewTab() {
     <form method="post" action="/tabs/new">
       <p>
         <label>
-          Name: <input name="name" type="text" />
+          Title: <input name="title" type="text" />
         </label>
       </p>
       <p>
         <label>
-          Description:
-          <br />
-          <textarea name="description" />
+          <textarea name="content" />
         </label>
       </p>
       <p>
