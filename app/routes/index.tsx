@@ -1,4 +1,5 @@
 import type { MetaFunction } from 'remix'
+import Text from '../components/primitives/text'
 
 export const meta: MetaFunction = () => {
   return {
@@ -10,7 +11,9 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <main>
-      <h1>Welcome to TabLab!</h1>
+      <Text as="h1" css={{ fontSize: '$10', letterSpacing: '$heading' }}>
+        Welcome to TabLab!
+      </Text>
     </main>
   )
 }

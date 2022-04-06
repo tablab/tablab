@@ -3,6 +3,6 @@
   "rules": {
     "react/prop-types": 0,
     "react/no-unescaped-entities": 0,
-    "sort-imports": 2
+    "sort-imports": 0
   }
 }

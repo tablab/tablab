@@ -1,0 +1,130 @@
+// stitches.config.ts
+
+import {
+  blue,
+  blueDark,
+  gray,
+  grayDark,
+  green,
+  greenDark,
+  red,
+  redDark,
+  slate,
+  slateDark,
+} from '@radix-ui/colors'
+
+import { createStitches } from '@stitches/react'
+
+export const {
+  styled,
+  css,
+  globalCss,
+  keyframes,
+  getCssText,
+  theme,
+  createTheme,
+  config,
+} = createStitches({
+  theme: {
+    colors: {
+      ...gray,
+      ...blueDark,
+      ...redDark,
+      ...greenDark,
+      ...slateDark,
+
+      // Token colors
+      bodyBgColor: '$slate1',
+    },
+    space: {
+      0: '0px',
+      1: '4px',
+      2: '8px',
+      3: '12px',
+      4: '16px',
+      5: '32px',
+      6: '64px',
+      7: '128px',
+      8: '256px',
+      9: '512px',
+    },
+    sizes: {
+      container: '1168px',
+      content: '924px',
+      0: '0px',
+      1: '4px',
+      2: '8px',
+      3: '12px',
+      4: '16px',
+      5: '32px',
+      6: '64px',
+      7: '128px',
+      8: '256px',
+      9: '512px',
+    },
+    fonts: {
+      body: 'Untitled Sans, Helvetica Neue, Helvetica, Arial, sans-serif',
+      heading: 'Untitled Sans, Helvetica Neue, Helvetica, Arial, sans-serif',
+      monospace:
+        'IBM Plex Mono, SFMono-Regular,Consolas,Menlo,Andale,monospace',
+    },
+    fontSizes: {
+      0: '13px',
+      1: '15px',
+      2: '17px',
+      3: '22px',
+      4: '26px',
+      5: '32px',
+      6: '36px',
+      7: '42px',
+      8: '64px',
+      9: '72px',
+      10: '78px',
+    },
+    letterSpacings: {
+      default: '0',
+      heading: '-0.055em',
+    },
+    lineHeights: {
+      default: '1.3',
+    },
+  },
+  media: {
+    1: '(min-width: 40em)',
+    2: '(min-width: 57em)',
+    3: '(min-width: 64em)',
+    4: '(min-width: 72em)',
+  },
+  utils: {
+    d: (value: string) => ({ display: value }),
+    m: (value: number | string) => ({ margin: value }),
+    ml: (value: number | string) => ({ marginLeft: value }),
+    mr: (value: number | string) => ({ marginRight: value }),
+    mt: (value: number | string) => ({ marginTop: value }),
+    mb: (value: number | string) => ({ marginBottom: value }),
+    mx: (value: number | string) => ({ marginLeft: value, marginRight: value }),
+    my: (value: number | string) => ({ marginTop: value, marginBottom: value }),
+    p: (value: number | string) => ({ padding: value }),
+    pl: (value: number | string) => ({ paddingLeft: value }),
+    pr: (value: number | string) => ({ paddingRight: value }),
+    pt: (value: number | string) => ({ paddingTop: value }),
+    pb: (value: number | string) => ({ paddingBottom: value }),
+    px: (value: number | string) => ({
+      paddingLeft: value,
+      paddingRight: value,
+    }),
+    py: (value: number | string) => ({
+      paddingTop: value,
+      paddingBottom: value,
+    }),
+    bg: (value: string) => ({ backgroundColor: value }),
+    bgImage: (value: string) => ({ backgroundImage: `url(${value})` }),
+    bgSize: (value: string) => ({ backgroundSize: value }),
+    bgPosition: (value: string) => ({ backgroundPosition: value }),
+    bgRepeat: (value: string) => ({ backgroundRepeat: value }),
+    bgAttachment: (value: string) => ({ backgroundAttachment: value }),
+    bgClip: (value: string) => ({ backgroundClip: value }),
+    bgOrigin: (value: string) => ({ backgroundOrigin: value }),
+    bgColor: (value: string) => ({ backgroundColor: value }),
+  },
+})
